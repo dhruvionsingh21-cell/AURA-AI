@@ -1,120 +1,46 @@
-// ================================
-// AURA AI - Day 2
-// ================================
-
-// Find HTML elements
+// Get HTML Elements
 const userInput = document.getElementById("userInput");
 const sendButton = document.getElementById("sendBtn");
 const chatBox = document.getElementById("chatBox");
 
-// ================================
-// Function to send message
-// ================================
-
+// Main function
 function sendMessage() {
 
     const message = userInput.value.trim();
 
-    // Stop if message is empty
-    if (message === "") {
+    if(message === ""){
         return;
     }
 
-    // ------------------------------
-    // USER MESSAGE
-    // ------------------------------
+    addUserMessage(message);
+chatBox.scrollTop = chatBox.scrollHeight;
+    const reply = getAIReply(message);
 
-    const userMessage = document.createElement("div");
+    showTyping(function(){
 
-    userMessage.classList.add("user-message");
-
-    userMessage.textContent = "🧑 You: " + message;
-
-    chatBox.appendChild(userMessage);
-
-    // ------------------------------
-    // AI RESPONSE
-    // ------------------------------
-
-    const text = message.toLowerCase();
-
-    let reply = "";
-
-    if (
-        text === "hi" ||
-        text === "hello" ||
-        text === "hey"
-    ) {
-
-        reply = "👋 Hello Harmeet! How are you today?";
-
-    }
-
-    else if (
-        text === "how are you" ||
-        text === "how r u"
-    ) {
-
-        reply = "😊 I'm doing great! Thanks for asking.";
-
-    }
-
-    else if (
-        text === "bye"
-    ) {
-
-        reply = "👋 Goodbye! Have a wonderful day.";
-
-    }
-
-    else {
-
-        reply = "🤖 I'm still learning. We'll connect a real AI brain very soon!";
-
-    }
-
-    // ------------------------------
-    // CREATE AI MESSAGE
-    // ------------------------------
-
-    const aiMessage = document.createElement("div");
-
-    aiMessage.classList.add("ai-message");
-
-    aiMessage.textContent = "🤖 AURA: " + reply;
-
-    chatBox.appendChild(aiMessage);
-
-    // ------------------------------
-    // CLEAR INPUT
-    // ------------------------------
+        addAIMessage(reply);
+chatBox.scrollTop = chatBox.scrollHeight;
+    });
 
     userInput.value = "";
 
-    // Focus back on input
     userInput.focus();
 
-    // Auto Scroll
     chatBox.scrollTop = chatBox.scrollHeight;
 
 }
 
-// ==================================
-// CLICK SEND BUTTON
-// ==================================
-
+// Click
 sendButton.addEventListener("click", sendMessage);
 
-// ==================================
-// PRESS ENTER
-// ==================================
+// Enter
+userInput.addEventListener("keydown", function(event){
 
-userInput.addEventListener("keydown", function (event) {
-
-    if (event.key === "Enter") {
+    if(event.key === "Enter"){
 
         sendMessage();
 
     }
 
 });
+welcomeMessage();
